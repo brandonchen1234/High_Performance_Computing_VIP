@@ -22,10 +22,10 @@ def pad_to_power_of_two(vector: np.ndarray) -> np.ndarray:
 
 
 class SentenceTransformer:
-    def __init__(self, model_name: str):
-        # We use a reliable, standard Hugging Face model to avoid the trust_remote_code cache error
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModel.from_pretrained(model_name)
+    def __init__(self, model_name: str, **kwargs):
+        # The **kwargs allows us to pass trust_remote_code=True to the Hugging Face backend
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name, **kwargs)
+        self.model = AutoModel.from_pretrained(model_name, **kwargs)
 
     def encode(self, sentences: list[str]) -> np.ndarray:
         encoded_input = self.tokenizer(sentences, padding=True, truncation=True, return_tensors='pt')
@@ -72,11 +72,20 @@ def quantum_inner_prod(vec1: np.ndarray, vec2: np.ndarray) -> float:
 def main():
     test_sentences = [
         "I have two cats, a black one named Tom and a white one named Jerry.",
-        "Tom likes to chase Jerry around the house."
+        "我有兩隻貓，一隻黑色嘅叫 Tom ，一隻白色嘅叫 Jerry 。"
     ]
 
     print("Loading language model...")
-    encoder = SentenceTransformer('distilbert-base-uncased')
+    # We can choose different models:
+    # "distilbert-base-uncased"
+    # "bert-base-uncased"
+    # "roberta-base"
+    # "xlm-roberta-base"
+    # sentence-transformers/all-MiniLM-L6-v2
+    # sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+    # sentence-transformers/all-mpnet-base-v2
+    # sentence-transformers/all-distilroberta-v1
+    encoder = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
 
     print("Encoding sentences...")
     embeddings = encoder.encode(test_sentences)
