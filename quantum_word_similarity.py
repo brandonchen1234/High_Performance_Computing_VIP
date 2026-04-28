@@ -85,7 +85,7 @@ def main():
     # sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
     # sentence-transformers/all-mpnet-base-v2
     # sentence-transformers/all-distilroberta-v1
-    encoder = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+    encoder = SentenceTransformer("distilbert-base-uncased")
 
     print("Encoding sentences...")
     embeddings = encoder.encode(test_sentences)
