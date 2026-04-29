@@ -9,6 +9,7 @@ import torch
 from transformers import AutoTokenizer, AutoModel
 from qiskit import QuantumCircuit
 from qiskit.quantum_info import Statevector
+import time
 
 
 def pad_to_power_of_two(vector: np.ndarray) -> np.ndarray:
@@ -70,6 +71,9 @@ def quantum_inner_prod(vec1: np.ndarray, vec2: np.ndarray) -> float:
 
 
 def main():
+
+    start_time = time.perf_counter()
+
     test_sentences = [
         "I have two cats, a black one named Tom and a white one named Jerry.",
         "我有兩隻貓，一隻黑色嘅叫 Tom ，一隻白色嘅叫 Jerry 。"
@@ -85,9 +89,10 @@ def main():
     # sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
     # sentence-transformers/all-mpnet-base-v2
     # sentence-transformers/all-distilroberta-v1
-    encoder = SentenceTransformer("distilbert-base-uncased")
+    language_model = "distilbert-base-uncased"
+    encoder = SentenceTransformer(language_model)
 
-    print("Encoding sentences...")
+    print(f"Encoding sentences using {language_model}...")
     embeddings = encoder.encode(test_sentences)
 
     # Classical Cosine Similarity
@@ -105,6 +110,8 @@ def main():
     print(f"Quantum Circuit Similarity:  {quantum_sim:.6f}")
     print(f"Absolute Difference:         {abs(classical_sim - quantum_sim):.6e}")
 
+    end_time = time.perf_counter()
+    print(f"\nTotal execution time: {end_time - start_time:.2f} seconds")
 
 if __name__ == "__main__":
     main()
