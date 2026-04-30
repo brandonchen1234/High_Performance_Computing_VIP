@@ -89,7 +89,7 @@ def main():
     # sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
     # sentence-transformers/all-mpnet-base-v2
     # sentence-transformers/all-distilroberta-v1
-    language_model = "distilbert-base-uncased"
+    language_model = "sentence-transformers/all-MiniLM-L6-v2"
     encoder = SentenceTransformer(language_model)
 
     print(f"Encoding sentences using {language_model}...")
@@ -98,10 +98,12 @@ def main():
     # Classical Cosine Similarity
     v1, v2 = embeddings[0], embeddings[1]
     classical_sim = np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
+    end_time_1 = time.perf_counter()
 
     # Quantum Inner Product
     print("Running quantum interference circuit...")
     quantum_sim = quantum_inner_prod(v1, v2)
+    end_time_2 = time.perf_counter()
 
     print("\n--- Results ---")
     print(f"Sentence 1: {test_sentences[0]}")
@@ -110,8 +112,8 @@ def main():
     print(f"Quantum Circuit Similarity:  {quantum_sim:.6f}")
     print(f"Absolute Difference:         {abs(classical_sim - quantum_sim):.6e}")
 
-    end_time = time.perf_counter()
-    print(f"\nTotal execution time: {end_time - start_time:.2f} seconds")
+    print(f"\nTotal execution time for Classical Cosine Similarity: {end_time_1 - start_time:.2f} seconds")
+    print(f"\nTotal execution time for Quantum Inner Product Similarity: {end_time_2 - start_time:.2f} seconds")
 
 if __name__ == "__main__":
     main()
