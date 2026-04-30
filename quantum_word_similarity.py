@@ -89,7 +89,7 @@ def main():
     # sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
     # sentence-transformers/all-mpnet-base-v2
     # sentence-transformers/all-distilroberta-v1
-    language_model = "sentence-transformers/all-MiniLM-L6-v2"
+    language_model = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
     encoder = SentenceTransformer(language_model)
 
     print(f"Encoding sentences using {language_model}...")
@@ -113,7 +113,7 @@ def main():
     print(f"Absolute Difference:         {abs(classical_sim - quantum_sim):.6e}")
 
     print(f"\nTotal execution time for Classical Cosine Similarity: {end_time_1 - start_time:.2f} seconds")
-    print(f"\nTotal execution time for Quantum Inner Product Similarity: {end_time_2 - start_time:.2f} seconds")
+    print(f"Total execution time for Quantum Inner Product Similarity: {end_time_2 - start_time:.2f} seconds")
 
 if __name__ == "__main__":
     main()
